@@ -1,5 +1,5 @@
 
-from os import system
+from os import system, environ
 from flask import Flask, jsonify, request, json, Response
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -9,15 +9,15 @@ from json import dumps
 app=Flask(__name__)
 CORS(app)
 
-app.secret_key = 'secret key'
- 
+app.secret_key = environ.get('FLASK_SECRET_KEY', 'secret key')
+
 #app.config['MYSQL_HOST'] = '10.0.20.195'
-app.config['MYSQL_HOST'] = 'frcteam195testinstance.cmdlvflptajw.us-east-1.rds.amazonaws.com'
-app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_USER'] = 'admin'
-app.config['MYSQL_PASSWORD'] = 'Harish'  # Password for AWS
+app.config['MYSQL_HOST'] = environ.get('MYSQL_HOST', 'frcteam195testinstance.cmdlvflptajw.us-east-1.rds.amazonaws.com')
+app.config['MYSQL_PORT'] = environ.get('MYSQL_HOST', 3306)
+app.config['MYSQL_USER'] = environ.get('MYSQL_HOST', 'admin')
+app.config['MYSQL_PASSWORD'] = environ.get('MYSQL_PASSWORD', 'Harish')  # Password for AWS
 #app.config['MYSQL_PASSWORD'] = 'team195'  # Password for Pi
-app.config['MYSQL_DB'] = 'team195_scouting'
+app.config['MYSQL_DB'] = environ.get('MYSQL_DB', 'team195_scouting')
 
 mysql = MySQL(app)
 
